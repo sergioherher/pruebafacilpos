@@ -5,6 +5,10 @@ class Transaccion extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('transaccion');
+		$fecha_hora_actual = date("Y-m-d H:i:s", strtotime("now"));
+		$fecha_hora_inicial = date("Y-m-d H:i:s", strtotime('-30 day'));
+		$this->load->model('Transaccionmodel');
+		$data['transacciones'] = $this->Transaccionmodel->obtener_transacciones_entre_fechas($fecha_hora_inicial,$fecha_hora_actual);
+		$this->load->view('transaccion',$data);
 	}
 }

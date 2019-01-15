@@ -51,7 +51,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 $route['admin_tasa'] = 'AdministrarTasa';
-
-$route['default_controller'] = 'Transaccion';
+$route['admin_bancos'] = 'AdministrarBancos';
+$route['admin_bancos']['post'] = 'AdministrarBancos/agregar_banco';
+$route['default_controller'] = 'transaccion';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

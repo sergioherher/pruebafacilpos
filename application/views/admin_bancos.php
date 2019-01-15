@@ -31,41 +31,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<a class="navbar-brand" href="#">Listado de Transacciones</a>
 	</nav>
 
-	<h2>Listado de transacciones entre fechas</h2>
-	Fecha Inicial
-	<input id="datetimepicker1" class="datetimepicker" type="text" name="fecha_ini">
-	Fecha Final
-	<input id="datetimepicker2" class="datetimepicker" type="text" name="fecha_fin">
-	<button class="botonFiltrar">Filtrar</button>
+	<form method="post">
+		<input type="text" id="desc_banco" name="desc_banco" size="50">
+		<button id="agrega_banco">Agregar Banco</button>
+	</form>
 	<table class="table table-dark">
 	  <thead>
 	    <tr>
-	      <th scope="col">Banco</th>
-	      <th scope="col">Nro Cuenta</th>
-	      <th scope="col">Tipo de Cuenta</th>
-	      <th scope="col">CI</th>
-	      <th scope="col">Venezolano o Extranjero</th>
-	      <th scope="col">Nombre del titular</th>
-	      <th scope="col">Pesos</th>
-	      <th scope="col">Compra o Venta</th>
-	      <th scope="col">Comentario</th>
-	      <th scope="col">Fecha/Hora de Transaccion</th>
+	      <th scope="col">Descripcion del Banco</th>
 	    </tr>
 	  </thead>
 	  <tbody>
-	  	<?=$transacciones->horaactual?>
-	  	<?php foreach ($transacciones->result() as $transaccion) { ?>
+	  	<?php foreach ($bancos->result() as $banco) { ?>
 	  	<tr>
-	      <td scope="col"><?=$transaccion->banco?></td>
-	      <td scope="col"><?=$transaccion->numero_cuenta?></td>
-	      <td scope="col"></td>
-	      <td scope="col">CI</td>
-	      <td scope="col">Venezolano o Extranjero</td>
-	      <td scope="col">Nombre del titular</td>
-	      <td scope="col">Pesos</td>
-	      <td scope="col">Compra o Venta</td>
-	      <td scope="col">Comentario</td>
-	      <td scope="col"><?=$transaccion->created_at?></td>
+	      <td scope="col"><?=$banco->desc_banco?></td>
 	    </tr>	
 	  	<?php } ?>
 	  </tbody>
@@ -73,20 +52,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
 
 
 <script type="text/javascript">
 	$( document ).ready(function() {
-    	$('#datetimepicker1').datetimepicker({
-		    format: 'dd/MM/yyyy hh:mm:ss'
-		});
-		$('.botonFiltrar').click(function(){
-			
-		});
+    	/*$("#agrega_banco").click(function(){
+    		event.preventDefault();
+            var desc_banco = $("#desc_banco").val();
+    		$.ajax({
+	    			type:"post",
+	    			url: "http://192.168.56.102/pruebafacilpos/admin_bancos",
+	    			data:{ desc_banco:desc_banco },
+	    			success: function(response) {
+						alert("Invalide!");
+	    			},
+	    			error: function() {
+	                    alert("Invalide!");
+	                }	
+    		});
+    	});*/
 	});
 </script>
 </body>

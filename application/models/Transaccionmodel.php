@@ -1,6 +1,6 @@
 <?php
 
-class Transaccion_Model extends CI_Model {
+class Transaccionmodel extends CI_Model {
 	public $banco;
 	public $numero_cuenta;
 	public $tipo_cuenta;
@@ -13,13 +13,19 @@ class Transaccion_Model extends CI_Model {
 	public $id_usuario;
 	public $created_at;
 
+    public function __construct()   {
+      $this->load->database(); 
+    }
+
 	public function obtener_transacciones_entre_fechas($fecha_ini,$fecha_fin)
     {
         $query = $this->db->select('*');
         $query = $this->db->from('transacciones');
         $query = $this->db->where('created_at >=', $fecha_ini);
         $query = $this->db->where('created_at <=', $fecha_fin);
-        return $query->result();
+        $query = $this->db->get();
+        $query->horaactual = $fecha_ini;
+        return $query;
     }
 
     public function insertar_transaccion($data)

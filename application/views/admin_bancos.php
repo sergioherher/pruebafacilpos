@@ -13,13 +13,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" type="text/css" href="css/bootstrap-datetimepicker-standalone.css">
 
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+
 <style type="text/css">
 	body{
 		font-family: 'Roboto', sans-serif;
 	}
 </style>
+
 <body>
 <header>
 	<h1>Bienvenido a la página de Fácil Pagos POS</h1>
@@ -31,7 +33,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<a class="navbar-brand" href="#">Listado de Transacciones</a>
 	</nav>
 
-	<form method="post">
+	<?php echo validation_errors(); ?>
+	<?php echo form_open('admin_bancos'); ?>
 		<input type="text" id="desc_banco" name="desc_banco" size="50">
 		<button id="agrega_banco">Agregar Banco</button>
 	</form>
@@ -45,6 +48,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	  	<?php foreach ($bancos->result() as $banco) { ?>
 	  	<tr>
 	      <td scope="col"><?=$banco->desc_banco?></td>
+	      <td scope="col"><button class="boton-editar" id="editar-<?=$banco->id?>"><i class="material-icons">edit</i></button></td>
+	      <td scope="col"><button id="borrar-<?=$banco->id?>"><i class="material-icons">delete_forever</i></button></td>
 	    </tr>	
 	  	<?php } ?>
 	  </tbody>
@@ -59,21 +64,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <script type="text/javascript">
 	$( document ).ready(function() {
-    	/*$("#agrega_banco").click(function(){
-    		event.preventDefault();
-            var desc_banco = $("#desc_banco").val();
+    	$(".boton-editar").click(function(){
+		event.preventDefault();
+    		alert(this.id);
+    		id_banco = this.id.split('-');
     		$.ajax({
-	    			type:"post",
-	    			url: "http://192.168.56.102/pruebafacilpos/admin_bancos",
-	    			data:{ desc_banco:desc_banco },
-	    			success: function(response) {
-						alert("Invalide!");
-	    			},
-	    			error: function() {
-	                    alert("Invalide!");
-	                }	
+    			type:'get',
+    			url: 'index.php/editar_banco/'+id_banco[1],
+    			success: function(result){
+    				alert(result);
+    			},
+    			error: function(){
+
+    			}
     		});
-    	});*/
+    	});
 	});
 </script>
 </body>

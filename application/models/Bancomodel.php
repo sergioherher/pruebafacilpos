@@ -17,7 +17,10 @@ class Bancomodel extends CI_Model {
 
     public function insertar_banco($data)
     {
-    	$this->db->insert('bancos', $data);
+    	$datos = ['desc_banco'=>$data];
+        $this->db->insert('bancos', $datos);
+        $mensaje = "Registro insertado";
+        return $mensaje;
     }
 
     public function actualizar_banco($data,$id_banco)

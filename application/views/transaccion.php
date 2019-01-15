@@ -53,7 +53,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	    </tr>
 	  </thead>
 	  <tbody>
-	  	<?=$transacciones->horaactual?>
 	  	<?php foreach ($transacciones->result() as $transaccion) { ?>
 	  	<tr>
 	      <td scope="col"><?=$transaccion->banco?></td>

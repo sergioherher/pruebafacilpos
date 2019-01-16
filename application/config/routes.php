@@ -66,3 +66,5 @@ $route['transaccion']['GET'] = 'transaccion';
 $route['default_controller'] = 'transaccion';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['consultar_tasa']['GET'] = 'ConsultarTasa';

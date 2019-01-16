@@ -24,51 +24,58 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <header>
 	<h1>Bienvenido a la página de Fácil Pagos POS</h1>
 </header>
-<div id="container">
+<div id="container-fluid">
 	<nav class="navbar">
+		<a class="navbar-brand" href="transaccion">Listado de Transacciones</a>
+		<a class="navbar-brand" href="registrar_transaccion">Registrar Transaccion</a>
 		<a class="navbar-brand" href="admin_tasa">Administrar Tasa</a>
 		<a class="navbar-brand" href="admin_bancos">Administrar Bancos</a>
-		<a class="navbar-brand" href="#">Listado de Transacciones</a>
 	</nav>
 
 	<h2>Listado de transacciones entre fechas</h2>
-	Fecha Inicial
-	<input id="datetimepicker1" class="datetimepicker" type="text" name="fecha_ini">
-	Fecha Final
-	<input id="datetimepicker2" class="datetimepicker" type="text" name="fecha_fin">
-	<button class="botonFiltrar">Filtrar</button>
-	<table class="table table-dark">
-	  <thead>
-	    <tr>
-	      <th scope="col">Banco</th>
-	      <th scope="col">Nro Cuenta</th>
-	      <th scope="col">Tipo de Cuenta</th>
-	      <th scope="col">CI</th>
-	      <th scope="col">Venezolano o Extranjero</th>
-	      <th scope="col">Nombre del titular</th>
-	      <th scope="col">Pesos</th>
-	      <th scope="col">Compra o Venta</th>
-	      <th scope="col">Comentario</th>
-	      <th scope="col">Fecha/Hora de Transaccion</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	  	<?php foreach ($transacciones->result() as $transaccion) { ?>
-	  	<tr>
-	      <td scope="col"><?=$transaccion->banco?></td>
-	      <td scope="col"><?=$transaccion->numero_cuenta?></td>
-	      <td scope="col"></td>
-	      <td scope="col">CI</td>
-	      <td scope="col">Venezolano o Extranjero</td>
-	      <td scope="col">Nombre del titular</td>
-	      <td scope="col">Pesos</td>
-	      <td scope="col">Compra o Venta</td>
-	      <td scope="col">Comentario</td>
-	      <td scope="col"><?=$transaccion->created_at?></td>
-	    </tr>	
-	  	<?php } ?>
-	  </tbody>
-	</table>
+	<div align="center">
+		Fecha Inicial
+		<input id="datetimepicker1" class="datetimepicker" type="text" name="fecha_ini">
+		Fecha Final
+		<input id="datetimepicker2" class="datetimepicker" type="text" name="fecha_fin">
+		<button class="botonFiltrar">Filtrar</button>
+	</div>
+	<div class="row">
+		<div class="col-12 col-sm-12	col-md-12 col-lg-12 col-xl-12">
+			<table class="table table-striped">
+			  <thead>
+			    <tr>
+			      <th scope="col">Banco</th>
+			      <th scope="col">Nro Cuenta</th>
+			      <th scope="col">Tipo de Cuenta</th>
+			      <th scope="col">CI</th>
+			      <th scope="col">Venezolano o Extranjero</th>
+			      <th scope="col">Nombre del titular</th>
+			      <th scope="col">Pesos</th>
+			      <th scope="col">Compra o Venta</th>
+			      <th scope="col">Comentario</th>
+			      <th scope="col">Fecha/Hora de Transaccion</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	<?php foreach ($transacciones->result() as $transaccion) { ?>
+			  	<tr>
+			      <td scope="col"><?=$transaccion->banco?></td>
+			      <td scope="col"><?=$transaccion->numero_cuenta?></td>
+			      <td scope="col"></td>
+			      <td scope="col">CI</td>
+			      <td scope="col">Venezolano o Extranjero</td>
+			      <td scope="col">Nombre del titular</td>
+			      <td scope="col">Pesos</td>
+			      <td scope="col">Compra o Venta</td>
+			      <td scope="col">Comentario</td>
+			      <td scope="col"><?=$transaccion->created_at?></td>
+			    </tr>	
+			  	<?php } ?>
+			  </tbody>
+			</table>
+		</div>
+	</div>
 </div>
 
 <!-- Latest compiled and minified JavaScript -->

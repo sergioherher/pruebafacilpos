@@ -31,10 +31,21 @@ class AdministrarBancos extends CI_Controller {
 			$data['bancos'] = $this->Bancomodel->obtener_bancos();			
 			$this->load->view('admin_bancos',$data);
 		}
-
 	}
 
 	public function editar_banco($id_banco) {
-		return $id_banco;
+		$desc_banco = $_GET['desc_banco'];
+		$data = ['desc_banco' => $desc_banco];
+		$this->load->model('Bancomodel');
+		$this->Bancomodel->actualizar_banco($data,$id_banco);
+		$data = ['desc_banco' => $desc_banco,'id_banco' => $id_banco];
+		echo json_encode($data);
+	}
+
+	public function borrar_banco($id_banco) {
+		$this->load->model('Bancomodel');
+		$this->Bancomodel->borrar_banco($id_banco);
+		$data = ['id_banco' => $id_banco];
+		echo json_encode($data);
 	}
 }

@@ -28,14 +28,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </header>
 <div id="container">
 	<nav class="navbar">
+		<a class="navbar-brand" href="registrar_transaccion">Registrar Transaccion</a>
+		<a class="navbar-brand" href="transaccion">Listado de Transacciones</a>
 		<a class="navbar-brand" href="admin_tasa">Administrar Tasa</a>
 		<a class="navbar-brand" href="admin_bancos">Administrar Bancos</a>
-		<a class="navbar-brand" href="#">Listado de Transacciones</a>
 	</nav>
 
 	<?php echo validation_errors(); ?>
-	<?php echo form_open('admin_bancos'); ?>
+	<?php 
+		$attributes = array('id' => 'formulario_descripcion_banco');
+		echo form_open('admin_bancos',$attributes); ?>
 		<input type="text" id="desc_banco" name="desc_banco" size="50">
+		<input type="hidden" id="agrega_o_edita" name="agrega_o_edita" value="0">
+		<input type="hidden" id="id_banco_a_enviar" name="banco_a_enviar">
 		<button id="agrega_banco">Agregar Banco</button>
 	</form>
 	<table class="table table-dark">
@@ -46,10 +51,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	  </thead>
 	  <tbody>
 	  	<?php foreach ($bancos->result() as $banco) { ?>
-	  	<tr>
-	      <td scope="col"><?=$banco->desc_banco?></td>
+	  	<tr id="fila_banco-<?=$banco->id?>">
+	      <td scope="col"><div id="desc_banco-<?=$banco->id?>"><?=$banco->desc_banco?></div></td>
 	      <td scope="col"><button class="boton-editar" id="editar-<?=$banco->id?>"><i class="material-icons">edit</i></button></td>
-	      <td scope="col"><button id="borrar-<?=$banco->id?>"><i class="material-icons">delete_forever</i></button></td>
+	      <td scope="col"><button class="boton-borrar" id="borrar-<?=$banco->id?>"><i class="material-icons">delete_forever</i></button></td>
 	    </tr>	
 	  	<?php } ?>
 	  </tbody>
@@ -64,20 +69,57 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <script type="text/javascript">
 	$( document ).ready(function() {
-    	$(".boton-editar").click(function(){
-		event.preventDefault();
-    		alert(this.id);
-    		id_banco = this.id.split('-');
-    		$.ajax({
-    			type:'get',
-    			url: 'index.php/editar_banco/'+id_banco[1],
-    			success: function(result){
-    				alert(result);
-    			},
-    			error: function(){
+		$("#agrega_banco").click(function(){
+			event.preventDefault();
+			if ($("#agrega_o_edita").val()==0) {
+				$("#formulario_descripcion_banco").submit();
+			}
+			else {
+				$("#agrega_o_edita").val(0);
 
-    			}
-    		});
+				id_banco = $("#id_banco_a_enviar").val()
+	    		desc_banco = $("#desc_banco").val();
+	    		$.ajax({
+	    			type:'get',
+	    			url: 'editar_banco/'+id_banco,
+	    			data: {'desc_banco':desc_banco},
+	    			success: function(result){
+	    				var obj = $.parseJSON(result);
+	    				$("#desc_banco-"+obj['id_banco']).html(obj['desc_banco'])
+	    				$("#agrega_banco").text("Agregar Banco");
+						$("#desc_banco").val("");
+	    			},
+	    			error: function(result){
+	    				alert("Error: "+result);
+	    			}
+	    		});
+			}
+
+		});
+
+		$(".boton-borrar").click(function(){
+			event.preventDefault();
+			id_banco = this.id.split('-');
+			$.ajax({
+	    			type:'get',
+	    			url: 'borrar_banco/'+id_banco[1],
+	    			success: function(result){
+	    				var obj = $.parseJSON(result);
+	    				$("#fila_banco-"+obj['id_banco']).remove();
+	    			},
+	    			error: function(result){
+	    				alert("Error al borrar");
+	    			}
+	    	});
+		});
+
+    	$(".boton-editar").click(function(){
+			event.preventDefault();
+    		id_banco = this.id.split('-');
+    		$("#agrega_o_edita").val(1);
+    		$("#id_banco_a_enviar").val(id_banco[1]);
+			$("#desc_banco").val($("#desc_banco-"+id_banco[1]).html());
+			$("#agrega_banco").text("Editar Banco");
     	});
 	});
 </script>

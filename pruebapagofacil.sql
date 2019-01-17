@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 16-01-2019 a las 10:49:20
--- Versión del servidor: 10.1.37-MariaDB
--- Versión de PHP: 7.2.12
+-- Servidor: localhost
+-- Tiempo de generación: 16-01-2019 a las 20:04:58
+-- Versión del servidor: 5.7.24
+-- Versión de PHP: 7.3.0RC6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -38,9 +38,13 @@ CREATE TABLE `bancos` (
 --
 
 INSERT INTO `bancos` (`id`, `desc_banco`) VALUES
-(62, 'Banco de Venezuela'),
+(62, 'Banco Venezolano de Credito'),
 (63, 'Banesco'),
-(64, 'Banco Provincial');
+(64, 'Banco Provincial'),
+(65, 'Banco de Venezuela'),
+(66, 'Banco Bicentenario'),
+(67, 'Del Sur'),
+(68, 'Del Sur Banco');
 
 -- --------------------------------------------------------
 
@@ -60,7 +64,10 @@ CREATE TABLE `tasas` (
 --
 
 INSERT INTO `tasas` (`id`, `created_at`, `tasa`, `tipo_transacc`) VALUES
-(1, '2019-01-16 09:34:19', '12', 0);
+(2, '2019-01-16 19:39:06', '2', 1),
+(3, '2019-01-16 23:53:01', '343', 0),
+(4, '2019-01-16 23:57:47', '343', 0),
+(5, '2019-01-16 23:57:10', '2323', 0);
 
 -- --------------------------------------------------------
 
@@ -90,7 +97,7 @@ INSERT INTO `tiposcuenta` (`id`, `desc_tipo`) VALUES
 
 CREATE TABLE `transacciones` (
   `id` int(11) NOT NULL,
-  `banco` int(11) NOT NULL,
+  `bancoID` int(11) NOT NULL,
   `numero_cuenta` bigint(20) NOT NULL,
   `tipo_cuenta` int(11) NOT NULL,
   `numero_documento` int(11) NOT NULL,
@@ -107,29 +114,10 @@ CREATE TABLE `transacciones` (
 -- Volcado de datos para la tabla `transacciones`
 --
 
-INSERT INTO `transacciones` (`id`, `banco`, `numero_cuenta`, `tipo_cuenta`, `numero_documento`, `tipo_documento`, `nombre_titular_cuenta`, `cantidad_pesos`, `tipo_transaccion`, `comentario`, `created_at`, `id_usuario`) VALUES
-(1, 1, 1570023425445654578, 1, 15677656, 1, 'Pedro Perez', '1000', 1, 'Transaccion Prueba', '2019-01-12 14:54:10', 1),
-(2, 64, 5514522525562554, 2, 0, 1, 'Sergio Hernandez', '3434', 0, '34efsadf', '2019-01-16 08:21:13', 0),
-(3, 0, 0, 0, 0, 0, '', '0', 0, '', '2019-01-16 08:31:49', 0),
-(4, 0, 0, 0, 0, 0, '', '0', 0, '', '2019-01-16 08:35:19', 0),
-(5, 0, 0, 0, 0, 0, '', '0', 0, '', '2019-01-16 08:36:44', 0),
-(6, 0, 0, 0, 0, 0, '', '0', 0, '', '2019-01-16 08:39:16', 0),
-(7, 0, 0, 0, 0, 0, '', '0', 0, '', '2019-01-16 08:44:06', 0),
-(8, 63, 551452252556255444, 2, 0, 0, 'Sergio Hernandez', '3434', 0, '34efsadf', '2019-01-16 08:45:44', 0),
-(9, 63, 5514522525567, 0, 0, 0, '', '0', 0, '', '2019-01-16 08:54:53', 0),
-(10, 63, 5514522525567, 0, 0, 0, '', '0', 0, '', '2019-01-16 08:55:02', 0),
-(11, 0, 5514522525567, 0, 0, 0, '', '0', 0, '', '2019-01-16 08:55:17', 0),
-(12, 0, 5514522525567, 0, 0, 0, '', '0', 0, '', '2019-01-16 08:56:30', 0),
-(13, 0, 5514522525567, 0, 0, 0, '', '0', 0, '', '2019-01-16 08:56:37', 0),
-(14, 0, 5514522525567, 0, 0, 0, '', '0', 0, '', '2019-01-16 08:58:08', 0),
-(15, 0, 5514522525567, 0, 0, 0, '', '0', 0, '', '2019-01-16 08:58:40', 0),
-(16, 0, 5514522525567, 0, 0, 0, '', '0', 0, '', '2019-01-16 08:59:51', 0),
-(17, 0, 5514522525567, 0, 0, 0, '', '0', 0, '', '2019-01-16 09:02:58', 0),
-(18, 0, 5514522525567, 0, 0, 0, '', '0', 0, '', '2019-01-16 09:03:22', 0),
-(19, 0, 5514522525567, 0, 0, 0, '', '0', 0, '', '2019-01-16 09:03:40', 0),
-(20, 0, 5514522525567, 0, 0, 0, '', '0', 0, '', '2019-01-16 09:03:55', 0),
-(21, 0, 5514522525567, 0, 0, 0, '', '0', 0, '', '2019-01-16 09:04:20', 0),
-(22, 0, 5514522525567, 0, 0, 0, '', '0', 0, '', '2019-01-16 09:04:38', 0);
+INSERT INTO `transacciones` (`id`, `bancoID`, `numero_cuenta`, `tipo_cuenta`, `numero_documento`, `tipo_documento`, `nombre_titular_cuenta`, `cantidad_pesos`, `tipo_transaccion`, `comentario`, `created_at`, `id_usuario`) VALUES
+(24, 62, 9223372036854775807, 1, 81124577, 0, 'Sergio Perez', '34', 0, 'Prueba', '2019-01-16 21:44:34', 0),
+(25, 62, 9223372036854775807, 1, 81124577, 0, 'Sergio Perez', '34', 0, 'Prueba', '2019-01-16 21:47:14', 0),
+(26, 62, 9223372036854775807, 1, 81124577, 0, 'Sergio Perez', '34', 0, 'Prueba', '2019-01-16 22:01:38', 0);
 
 --
 -- Índices para tablas volcadas
@@ -157,7 +145,8 @@ ALTER TABLE `tiposcuenta`
 -- Indices de la tabla `transacciones`
 --
 ALTER TABLE `transacciones`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `banco` (`bancoID`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -167,19 +156,19 @@ ALTER TABLE `transacciones`
 -- AUTO_INCREMENT de la tabla `bancos`
 --
 ALTER TABLE `bancos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT de la tabla `tasas`
 --
 ALTER TABLE `tasas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `transacciones`
 --
 ALTER TABLE `transacciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

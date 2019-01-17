@@ -35,15 +35,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<h2>Listado de transacciones entre fechas</h2>
 	<div class="container" align="center">
-		Fecha Inicial
-		<input id="datepicker1" class="datepicker" type="text" name="fecha_ini">
-		Fecha Final
-		<input id="datepicker2" class="datepicker" type="text" name="fecha_fin">
-		<button class="botonFiltrar">Filtrar</button>
+	<?php 
+		$attributes = array('id' => 'formulario_filtrar_entre_fechas');
+		echo form_open('transaccion',$attributes); ?>
+			Fecha Inicial
+			<input id="datepicker1" class="datepicker" type="text" name="fecha_ini">
+			Fecha Final
+			<input id="datepicker2" class="datepicker" type="text" name="fecha_fin">
+			<button type="submit" class="botonFiltrar">Filtrar</button>
+		</form>
 	</div>
 	<div class="row">
 		<div class="col-12 col-sm-12	col-md-12 col-lg-12 col-xl-12">
-			<table class="table table-striped"  data-toggle="table">
+			<table class="table table-striped">
 			  <thead>
 			    <tr>
 			      <th scope="col">Banco</th>
@@ -95,22 +99,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		});
 		$('#datepicker2').datepicker({
 		    format: 'yyyy-m-d'
-		});
-		$('.botonFiltrar').click(function(){
-			var fecha_ini = $('#datepicker1').val();
-			var fecha_fin = $('#datepicker2').val();
-			$.ajax({
-				type:"get",
-				data: {"fecha_ini":fecha_ini,"fecha_fin":fecha_fin},
-				url:"actualizar_listado_fechas",
-				success: function(result) {
-
-				},
-				error: function() {
-
-				}
-			});
-			$('#datepicker1')
 		});
 	});
 </script>

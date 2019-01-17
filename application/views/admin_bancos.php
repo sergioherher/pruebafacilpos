@@ -68,6 +68,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+	if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+
 	$( document ).ready(function() {
 		$("#agrega_banco").click(function(){
 			event.preventDefault();

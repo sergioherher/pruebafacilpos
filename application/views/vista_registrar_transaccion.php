@@ -59,7 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			  <?php echo form_error('numero_cuenta','<div class="error">', '</div>'); ?>
 			  <div class="form-group">
 			    <label for="numero_cuenta">N° Cuenta</label>
-			    <input data-validation="number" data-validation-error-msg="Debe escribir unicamente valores numericos" type="text" class="form-control" name="numero_cuenta" id="numero_cuenta" placeholder="20 digitos sin espacios ni guiones" maxlength="20">
+			    <input data-validation="length|number" data-validation-length="min20" data-validation-error-msg="Debe escribir unicamente valores numericos y la extensión debe ser de 20 dígitos" type="text" class="form-control" name="numero_cuenta" id="numero_cuenta" placeholder="20 digitos sin espacios ni guiones" maxlength="20">
 			  </div>
 			  <?php echo form_error('tipo_cuenta','<div class="error">', '</div>'); ?>
 			  <div class="form-group">
@@ -82,12 +82,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			  <?php echo form_error('numero_documento','<div class="error">', '</div>'); ?>
 			  <div class="form-group">
 			    <label for="numero_documento">Cedula de Identidad</label>
-			    <input type="text" class="form-control" name="numero_documento" id="numero_documento" placeholder="">
+			    <input data-validation="number" data-validation-error-msg="Debe escribir unicamente valores numericos" type="text" class="form-control" name="numero_documento" id="numero_documento" placeholder="">
 			  </div>
 			  <?php echo form_error('nombre_titular_cuenta','<div class="error">', '</div>'); ?>
 			  <div class="form-group">
 			    <label for="nombre_titular_cuenta">Nombre del Titular de la Cuenta</label>
-			    <input type="text" class="form-control" name="nombre_titular_cuenta" id="nombre_titular_cuenta" placeholder="Igual al registrado en el banco">
+			    <input type="text" data-validation="length" data-validation-length="min1" class="form-control"  data-validation-error-msg="Este campo no puede estar vacío" name="nombre_titular_cuenta" id="nombre_titular_cuenta" placeholder="Igual al registrado en el banco">
 			  </div>
 			  <div class="form-check form-check-inline">
 			    <input name="tipo_transaccion" value="0" checked="checked" type="radio" class="form-check-input" id="compra">
@@ -103,6 +103,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			    <input type="text" class="form-control" name="cantidad_pesos" id="cantidad_pesos" placeholder="$00.00">
 			  	<div id="equivalente_bolivares">
 				  	Equivalente en bolivares: 
+				</div>
+				<div id="tasa_vigente">
+				  	Tasa vigente: 
 				</div>
 			  </div>
 			  <?php echo form_error('comentario','<div class="error">', '</div>'); ?>
@@ -125,21 +128,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
 
 <script type="text/javascript">
+	if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+
 	$( document ).ready(function() {
-    	
+    	$('#cantidad_pesos').on('input', function () { 
+    		this.value = this.value.replace(/[^0-9]/g,'');
+		});
     	function recalcular_tasa() {
     		event.preventDefault();
   			var tipo_transaccion = $('input[name="tipo_transaccion"]:checked').val()
   			$.ajax({
   				type:"get",
   				url:"consultar_tasa",
-  				data: {"tipo_transaccion":tipo_transaccion},
+  				data: {"tipo_transacc":tipo_transaccion},
   				success: function(result){
   					var obj = JSON.parse(result);
   					$("#equivalente_bolivares").html("Equivalente en bolivares: "+($("#cantidad_pesos").val()/obj[0].tasa).toString().match(/^-?\d+(?:\.\d{0,2})?/));
-  				},
-  				error: function() {
-
+  					$("#tasa_vigente").html("Tasa vigente: "+obj[0].tasa);
   				}  				
   			});
     	}

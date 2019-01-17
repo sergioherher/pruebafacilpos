@@ -14,9 +14,9 @@ class AdministrarTasa extends CI_Controller {
 
 	public function consultar_tasa()
 	{
-			$tipo_transaccion = $_GET['tipo_transaccion'];
+			$tipo_transacc = $_GET['tipo_transacc'];
 			$this->load->model('Tasamodel');
-			$data = $this->Tasamodel->obtener_tasa($tipo_transaccion);
+			$data = $this->Tasamodel->obtener_tasa($tipo_transacc);
 			echo json_encode($data->result());
 	}
 
@@ -33,7 +33,8 @@ class AdministrarTasa extends CI_Controller {
 		}
 		else {
 			$desc_tasa = $_POST['tasa'];
-			$tasa = ["tasa"=>$desc_tasa];
+			$tipo_transacc = $_POST['tipo_transacc'];
+			$tasa = ["tasa"=>$desc_tasa,"tipo_transacc"=>$tipo_transacc];
 			$data['mensaje'] = $this->Tasamodel->registrar_tasa($tasa);
 			$data['tasas'] = $this->Tasamodel->listado_tasas();			
 			$this->load->view('admin_tasa',$data);
@@ -42,10 +43,11 @@ class AdministrarTasa extends CI_Controller {
 
 	public function editar_tasa($id_tasa) {
 		$tasa = $_GET['tasa'];
-		$data = ['tasa' => $tasa];
+		$tipo_transacc = $_GET['tipo_transacc'];
+		$data = ['tasa' => $tasa,'tipo_transacc' => $tipo_transacc];
 		$this->load->model('Tasamodel');
 		$this->Tasamodel->actualizar_tasa($data,$id_tasa);
-		$data = ['tasa' => $tasa,'id_tasa' => $id_tasa];
+		$data = ['tipo_transacc'=>$tipo_transacc,'tasa' => $tasa,'id_tasa' => $id_tasa];
 		echo json_encode($data);
 	}
 

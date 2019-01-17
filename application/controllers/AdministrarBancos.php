@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class AdministrarBancos extends CI_Controller {
 
+	//Retorna el listado de bancos para la vista de administración de bancos
 	public function index()
 	{
 		$this->load->model('Bancomodel');
@@ -12,6 +13,7 @@ class AdministrarBancos extends CI_Controller {
 		$this->load->view('admin_bancos',$data);
 	}
 
+	//Ingresa un banco en la base de datos
 	public function agregar_banco() {
 		$this->load->library('form_validation');
 		$this->load->helper('form');
@@ -33,6 +35,7 @@ class AdministrarBancos extends CI_Controller {
 		}
 	}
 
+	//Edita la descripción de un banco en base a un id dado
 	public function editar_banco($id_banco) {
 		$desc_banco = $_GET['desc_banco'];
 		$data = ['desc_banco' => $desc_banco];
@@ -42,6 +45,7 @@ class AdministrarBancos extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	//Elimina un banco de la base de datos
 	public function borrar_banco($id_banco) {
 		$this->load->model('Bancomodel');
 		$this->Bancomodel->borrar_banco($id_banco);

@@ -14,14 +14,13 @@ class RegistrarTransaccion extends CI_Controller {
 		$this->load->model('Bancomodel');
 		$data['bancos'] = $this->Bancomodel->obtener_bancos();
 		$data['tipocuentas'] = $this->Cuentasmodel->obtener_tipos_cuenta();
-		$this->load->view('vista_transaccion',$data);
+		$this->load->view('vista_registrar_transaccion',$data);
 	}
 
 	public function registrar_transaccion()
 	{
 		foreach($_POST as $key => $value){
      		$data[$key] = $this->input->post($key);
-     		echo $key." ".$data[$key]."<br>";
 		}
 
 		$this->load->library('form_validation');
@@ -33,7 +32,7 @@ class RegistrarTransaccion extends CI_Controller {
 		$datos['bancos'] = $this->Bancomodel->obtener_bancos();
 		$datos['tipocuentas'] = $this->Cuentasmodel->obtener_tipos_cuenta();
 
-		$this->form_validation->set_rules('banco', 'Banco', 'required');
+		$this->form_validation->set_rules('bancoID', 'Banco', 'required');
 		$this->form_validation->set_rules('numero_cuenta', 'Numero de Cuenta', 'required|max_length[20]');
 		$this->form_validation->set_rules('tipo_cuenta', 'Tipo de Cuenta', 'required');
 		$this->form_validation->set_rules('numero_documento', 'Cedula de Identidad', 'required|max_length[10]');
@@ -42,13 +41,12 @@ class RegistrarTransaccion extends CI_Controller {
 		$this->form_validation->set_rules('comentario', 'Comentario', 'max_length[100]');
 		
 		if ($this->form_validation->run() == FALSE)	{
-			echo "Insertado";
 			$this->load->model('Transaccionmodel');
 			$this->Transaccionmodel->insertar_transaccion($data);
-			$this->load->view('vista_transaccion',$datos);
+			$this->load->view('vista_registrar_transaccion',$datos);
 		}
 		else {
-			$this->load->view('vista_transaccion',$datos);
+			$this->load->view('vista_registrar_transaccion',$datos);
 		}
 	}
 }

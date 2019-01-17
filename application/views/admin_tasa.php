@@ -38,7 +38,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php 
 		$attributes = array('id' => 'formulario_descripcion_tasa');
 		echo form_open('admin_tasa',$attributes); ?>
-		<input type="text" id="tasa" name="tasa" size="50">
+		<div class="form-group">
+			    <label for="tasa">Tasa de Conversión</label>
+			    <input type="text" class="form-control" name="tasa" id="tasa">
+		</div>
+		<div class="form-check form-check-inline">
+			    <input name="tipo_transacc" value="0" checked="checked" type="radio" class="form-check-input" id="compra">
+			    <label class="form-check-label" for="compra">Compra</label>
+		</div>
+		<div class="form-check form-check-inline">
+			    <input name="tipo_transacc" value="1" type="radio" class="form-check-input" id="venta">
+			    <label class="form-check-label" for="venta">Venta</label>
+		</div>
 		<input type="hidden" id="tasa-agrega_o_edita" name="tasa-agrega_o_edita" value="0">
 		<input type="hidden" id="id_tasa_a_enviar" name="id_tasa_a_enviar">
 		<button id="agrega_tasa">Agregar Tasa</button>
@@ -53,7 +64,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	  	<?php foreach ($tasas->result() as $tasa) { ?>
 	  	<tr id="fila_tasa-<?=$tasa->id?>">
 	      <td scope="col"><div id="tasa-<?=$tasa->id?>"><?=$tasa->tasa?></div></td>
-	      <td scope="col"><div id="tasa-<?=$tasa->id?>"><?=$tasa->created_at?></div></td>
+	      <td scope="col"><div id="tasa-created_at-<?=$tasa->id?>"><?=$tasa->created_at?></div></td>
+	      <td scope="col"><div id="tasa-tipo_transacc-<?=$tasa->id?>"><?=($tasa->tipo_transacc==0)?"Compra":"Venta"?></div></td>
 	      <td scope="col"><button type="button" class="btn btn-warning boton-editar" id="editar-<?=$tasa->id?>"><i class="material-icons">edit</i></button></td>
 	      <td scope="col"><button type="button" class="btn btn-danger boton-borrar" id="borrar-<?=$tasa->id?>"><i class="material-icons">delete_forever</i></button></td>
 	    </tr>	
@@ -69,6 +81,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <script type="text/javascript">
+	if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+
 	$( document ).ready(function() {
 		$("#agrega_tasa").click(function(){
 			event.preventDefault();
@@ -79,15 +95,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$("#tasa-agrega_o_edita").val(0);
 				id_tasa_a_enviar = $("#id_tasa_a_enviar").val()
 	    		tasa = $("#tasa").val();
+	    		tipo_transacc = $("input[type=radio][name=tipo_transacc]:checked").val();
+	    		alert(tipo_transacc);
 	    		$.ajax({
 	    			type:'get',
 	    			url: 'editar_tasa/'+id_tasa_a_enviar,
-	    			data: {'tasa':tasa},
+	    			data: {'tasa':tasa,'tipo_transacc':tipo_transacc},
 	    			success: function(result){
 	    				var obj = $.parseJSON(result);
+	    				var tipo_transacc = ((obj['tipo_transacc']==0)?"Compra":"Venta");
 	    				$("#tasa-"+obj['id_tasa']).html(obj['tasa'])
+	    				$("#tasa-tipo_transacc-"+obj['id_tasa']).html(tipo_transacc);
 	    				$("#agrega_tasa").text("Agregar Tasa");
-						$("#desc_tasa").val("");
+						$("#tasa").val("");
 	    			},
 	    			error: function(result){
 	    				alert("Error: "+result);
@@ -120,6 +140,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     		$("#id_tasa_a_enviar").val(id_tasa[1]);
 			$("#tasa").val($("#tasa-"+id_tasa[1]).html());
 			$("#agrega_tasa").text("Editar Tasa");
+			if($("#tasa-tipo_transacc-"+id_tasa[1]).html() == "Compra") {
+				$("#compra").prop("checked", true);
+			}
+			else {
+				$("#venta").prop("checked", true);
+			}
     	});
 	});
 </script>

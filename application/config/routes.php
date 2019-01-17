@@ -50,10 +50,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 
-$route['admin_tasa'] = 'AdministrarTasa';
+$route['admin_tasa']['GET']  = 'AdministrarTasa';
+$route['admin_tasa']['POST'] = 'AdministrarTasa/agregar_tasa';
 
 $route['editar_banco/(:num)']['GET'] = 'AdministrarBancos/editar_banco/$1';
 $route['borrar_banco/(:num)']['GET'] = 'AdministrarBancos/borrar_banco/$1';
+
+$route['editar_tasa/(:num)']['GET'] = 'AdministrarTasa/editar_tasa/$1';
+$route['borrar_tasa/(:num)']['GET'] = 'AdministrarTasa/borrar_tasa/$1';
 
 $route['admin_bancos']['GET'] = 'AdministrarBancos';
 $route['admin_bancos']['POST'] = 'AdministrarBancos/agregar_banco';
@@ -67,4 +71,5 @@ $route['default_controller'] = 'transaccion';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['consultar_tasa']['GET'] = 'ConsultarTasa';
+$route['consultar_tasa']['GET'] = 'AdministrarTasa/consultar_tasa';
+$route['actualizar_listado_fechas']['GET'] = 'transaccion/entre_fechas';

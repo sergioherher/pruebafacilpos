@@ -29,23 +29,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<h1>Bienvenido a la página de Fácil Pagos POS</h1>
 </header>
 <div id="container">
+
+		<nav class="navbar navbar-light bg-light">
+			<a class="navbar-brand" href="transaccion">Listado de Transacciones</a>
+			<a class="navbar-brand" href="registrar_transaccion">Registrar Transaccion</a>
+			<a class="navbar-brand" href="admin_tasa">Administrar Tasa</a>
+			<a class="navbar-brand" href="admin_bancos">Administrar Bancos</a>
+		</nav>
+
+
+	<h2>Registrar transacción</h2>
 	<div class="row">
 		<div class="col-2">
 		</div>
 		<div class="col-8">
-			<nav class="navbar">
-				<a class="navbar-brand" href="transaccion">Listado de Transacciones</a>
-				<a class="navbar-brand" href="registrar_transaccion">Registrar Transaccion</a>
-				<a class="navbar-brand" href="admin_tasa">Administrar Tasa</a>
-				<a class="navbar-brand" href="admin_bancos">Administrar Bancos</a>
-			</nav>
 			<?php 
 			$attributes = array('id' => 'formulario_registrar_transaccion');
 			echo form_open('registrar_transaccion',$attributes); ?>
-			  <?php echo form_error('banco','<div class="error">', '</div>'); ?>
+			  <?php echo form_error('bancoID','<div class="error">', '</div>'); ?>
 			  <div class="form-group">
-			    <label for="banco">Banco</label>
-				<select name="banco" id="banco" class="form-control">
+			    <label for="bancoID">Banco</label>
+				<select name="bancoID" id="bancoID" class="form-control">
 					<option></option>
 					<?php foreach ($bancos->result() as $banco) { ?>
 					<option id="<?=$banco->id?>" value="<?=$banco->id?>"><?=$banco->desc_banco?></option>
@@ -98,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			    <label for="cantidad_pesos">Pesos</label>
 			    <input type="text" class="form-control" name="cantidad_pesos" id="cantidad_pesos" placeholder="$00.00">
 			  	<div id="equivalente_bolivares">
-				  	Esta es una prueba
+				  	Equivalente en bolivares: 
 				</div>
 			  </div>
 			  <?php echo form_error('comentario','<div class="error">', '</div>'); ?>
@@ -122,24 +126,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <script type="text/javascript">
 	$( document ).ready(function() {
-    	$.validate();
-    	$("#cantidad_pesos").keyup(function() {
-  			event.preventDefault();
+    	
+    	function recalcular_tasa() {
+    		event.preventDefault();
+  			var tipo_transaccion = $('input[name="tipo_transaccion"]:checked').val()
   			$.ajax({
   				type:"get",
   				url:"consultar_tasa",
+  				data: {"tipo_transaccion":tipo_transaccion},
   				success: function(result){
-  					alert(result);
-  					var obj = $.parseJSON(result);
-  					alert(JSON.stringify(result, null, 4));
-  					$("#equivalente_bolivares").val(obj['tasa'])
+  					var obj = JSON.parse(result);
+  					$("#equivalente_bolivares").html("Equivalente en bolivares: "+($("#cantidad_pesos").val()/obj[0].tasa).toString().match(/^-?\d+(?:\.\d{0,2})?/));
   				},
   				error: function() {
 
   				}  				
   			});
-  			$("#equivalente_bolivares").val();
-		});
+    	}
+
+    	$.validate();
+    	$("#cantidad_pesos").keyup(recalcular_tasa);
+    	$("input[type=radio][name=tipo_transaccion]").on("change", recalcular_tasa);
+
 	});
 </script>
 </body>

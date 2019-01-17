@@ -19,12 +19,7 @@ class Transaccionmodel extends CI_Model {
 
 	public function obtener_transacciones_entre_fechas($fecha_ini,$fecha_fin)
     {
-        $query = $this->db->select('*');
-        $query = $this->db->from('transacciones');
-        $query = $this->db->where('created_at >=', $fecha_ini);
-        $query = $this->db->where('created_at <=', $fecha_fin);
-        $query = $this->db->get();
-        $query->horaactual = $fecha_ini;
+        $query = $this->db->query("SELECT transacciones.id, bancos.desc_banco,transacciones.numero_cuenta, tiposcuenta.desc_tipo, transacciones.numero_documento, transacciones.tipo_documento, transacciones.nombre_titular_cuenta,transacciones.cantidad_pesos, transacciones.tipo_transaccion, transacciones.comentario, transacciones.id_usuario, transacciones.created_at FROM transacciones INNER JOIN bancos ON transacciones.bancoID = bancos.id INNER JOIN tiposcuenta ON transacciones.tipo_cuenta = tiposcuenta.id WHERE created_at >= '$fecha_ini' AND created_at <= '$fecha_fin'");
         return $query;
     }
 

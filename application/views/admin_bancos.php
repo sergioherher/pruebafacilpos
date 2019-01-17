@@ -27,13 +27,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<h1>Bienvenido a la página de Fácil Pagos POS</h1>
 </header>
 <div id="container">
-	<nav class="navbar">
-		<a class="navbar-brand" href="registrar_transaccion">Registrar Transaccion</a>
+	<nav class="navbar navbar-light bg-light">
 		<a class="navbar-brand" href="transaccion">Listado de Transacciones</a>
+		<a class="navbar-brand" href="registrar_transaccion">Registrar Transaccion</a>
 		<a class="navbar-brand" href="admin_tasa">Administrar Tasa</a>
 		<a class="navbar-brand" href="admin_bancos">Administrar Bancos</a>
 	</nav>
-
+	<h2>Gestionar Bancos</h2>
 	<?php echo validation_errors(); ?>
 	<?php 
 		$attributes = array('id' => 'formulario_descripcion_banco');
@@ -43,18 +43,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<input type="hidden" id="id_banco_a_enviar" name="banco_a_enviar">
 		<button id="agrega_banco">Agregar Banco</button>
 	</form>
-	<table class="table table-dark">
+	<table class="table table-striped">
 	  <thead>
 	    <tr>
-	      <th scope="col">Descripcion del Banco</th>
+	      <th colspan="3" scope="col">Descripcion del Banco</th>
 	    </tr>
 	  </thead>
 	  <tbody>
 	  	<?php foreach ($bancos->result() as $banco) { ?>
 	  	<tr id="fila_banco-<?=$banco->id?>">
 	      <td scope="col"><div id="desc_banco-<?=$banco->id?>"><?=$banco->desc_banco?></div></td>
-	      <td scope="col"><button class="boton-editar" id="editar-<?=$banco->id?>"><i class="material-icons">edit</i></button></td>
-	      <td scope="col"><button class="boton-borrar" id="borrar-<?=$banco->id?>"><i class="material-icons">delete_forever</i></button></td>
+	      <td scope="col"><button type="button" class="btn btn-warning boton-editar" id="editar-<?=$banco->id?>"><i class="material-icons">edit</i></button></td>
+	      <td scope="col"><button type="button" class="btn btn-danger boton-borrar" id="borrar-<?=$banco->id?>"><i class="material-icons">delete_forever</i></button></td>
 	    </tr>	
 	  	<?php } ?>
 	  </tbody>

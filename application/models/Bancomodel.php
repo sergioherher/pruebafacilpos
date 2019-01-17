@@ -25,7 +25,7 @@ class Bancomodel extends CI_Model {
     {
 		$this->db->set($data);
 		$this->db->where('id',$id_banco);
-    	$this->db->update('bancos', $data);
+    	$this->db->update('bancos', $data);    
     }
 
     public function borrar_banco($id_banco)
